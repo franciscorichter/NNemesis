@@ -41,15 +41,9 @@ DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
   coro::loop(for (b in data_loader_ltt) {
     out <- cnn_ltt(b$x$to(device = device))
     pred <- as.numeric(out$to(device = "cpu")) # move the tensor to CPU 
-    for (i in 1:n_out){nn.pred[[i]] <- c(nn.pred[[i]], pred[i])}
+    pred_values[, i] <- pred
   })
   
-  for (i in seq_along(data_loader_ltt)) {
-    batch <- data_loader_ltt[[i]]
-    out <- cnn_ltt(batch$x$to(device = device))
-    pred <- as.numeric(out$to(device = "cpu")) # move the tensor to CPU 
-    pred_values[, i] <- pred
-  }
   
   # Store predictions in nn.pred
   for (i in seq_len(num_outputs)){
