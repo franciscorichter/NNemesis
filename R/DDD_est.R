@@ -1,0 +1,62 @@
+#' @import magrittr
+
+# Improved DDD_par_est function
+DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
+  # Check if tree is a valid phylogenetic tree
+  if(!inherits(tree, "phylo")){
+    stop("Input tree is not a valid phylogenetic tree.")
+  }
+  
+  # Check if cnn_ltt is a valid model
+  if(!inherits(cnn_ltt, "nn_module")){
+    stop("Input cnn_ltt is not a valid torch model.")
+  }
+  
+  ltt.coord <- ape::ltt.plot.coords(tree) # get ltt coordinates 
+  ltt.coord <- as.data.frame(ltt.coord)
+  ltt.coord.time <- ltt.coord$time
+  n <- length(ltt.coord.time)
+  
+  df.ltt <- data.frame("tree1" = rep(NA, max_nodes_rounded))
+  df.ltt[1:n,1] <- ltt.coord$time
+  
+  crown_time = max(abs(df.ltt[!is.na(df.ltt)]))
+  df.ltt = df.ltt / crown_time
+  
+  ds.ltt_new <- convert_ltt_dataframe_to_dataset(df.ltt)
+  
+  ds_eval  <- ds.ltt_new(df.ltt)
+  
+  data_loader_ltt <- ds_eval  %>% torch::dataloader(batch_size=1, shuffle=FALSE)
+  
+  cnn_ltt$eval()
+  num_outputs <- 3
+  nn.pred <- vector(mode = "list", length = num_outputs)
+  names(nn.pred) <- c("lambda0", "mu", "K")
+  
+  # Preallocate memory for predictions
+  pred_values <- matrix(nrow = num_outputs, ncol = length(data_loader_ltt))
+  
+  
+  coro::loop(for (b in data_loader_ltt) {
+    out <- cnn_ltt(b$x$to(device = device))
+    pred <- as.numeric(out$to(device = "cpu")) # move the tensor to CPU 
+    for (i in 1:n_out){nn.pred[[i]] <- c(nn.pred[[i]], pred[i])}
+  })
+  
+  for (i in seq_along(data_loader_ltt)) {
+    batch <- data_loader_ltt[[i]]
+    out <- cnn_ltt(batch$x$to(device = device))
+    pred <- as.numeric(out$to(device = "cpu")) # move the tensor to CPU 
+    pred_values[, i] <- pred
+  }
+  
+  # Store predictions in nn.pred
+  for (i in seq_len(num_outputs)){
+    nn.pred[[i]] <- pred_values[i, ]
+  }
+  
+  par_estim = pred/crown_time
+  
+  return(par_estim)
+}

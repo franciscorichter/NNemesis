@@ -27,7 +27,7 @@ DDD_par_est <- function(tree,cnn_ltt=cnn_ltt){
   
   p_dropout <- 0.01
   
-  b = data_loader_ltt
+  #b = data_loader_ltt
   
   
   coro::loop(for (b in data_loader_ltt) {
