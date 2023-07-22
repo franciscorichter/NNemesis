@@ -13,19 +13,19 @@ NNemesis is a comprehensive R package providing a suite of tools for Neural Netw
 
 To install the latest version of NNemesis from GitHub:
 
-\```r
+```r
 # install.packages("devtools")
 devtools::install_github("franciscorichter/NNemesis")
-\```
+```
 
 ## Usage
 
 Here is a basic example of how to use NNemesis:
 
-\```r
+```r
 library(NNemesis)
 # insert example code here
-\```
+```
 
 Please refer to the vignettes for detailed examples and usage instructions.
 
