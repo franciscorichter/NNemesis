@@ -24,11 +24,8 @@ Here is a basic example of how to use NNemesis:
 
 ```r
 library(NNemesis)
-
-tree = phylo 
-DDD_par_est(tree,cnn_ltt = cnn_ltt)
-
-
+tree = FamilyMammalTrees$Ziphiidae$tree
+DDD_est(tree = tree,cnn_ltt = cnn_ltt)
 ```
 
 Please refer to the vignettes for detailed examples and usage instructions.

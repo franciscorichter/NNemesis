@@ -6,7 +6,7 @@ DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
   if(!inherits(tree, "phylo")){
     stop("Input tree is not a valid phylogenetic tree.")
   }
-  
+  cnn_ltt$eval()
   # Check if cnn_ltt is a valid model
   if(!inherits(cnn_ltt, "nn_module")){
     stop("Input cnn_ltt is not a valid torch model.")
