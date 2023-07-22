@@ -7,7 +7,22 @@ Description: NNemesis provides a suite of tools for Neural Networks, Evolution, 
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports:
+Imports: 
+    MLmetrics,
+    magrittr,
+    dplyr,
+    ape,
+    diversitree,
+    RPANDA,
+    latex2exp,
+    castor,
+    phangorn,
+    svMisc,
+    torch,
+    igraph,
+    scales,
+    extraDistr,
+    dplyr,
     ggplot2,
     stats,
     utils
