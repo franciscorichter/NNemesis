@@ -24,31 +24,18 @@ DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
   df.ltt = df.ltt / crown_time
   
   ds.ltt_new <- convert_ltt_dataframe_to_dataset(df.ltt)
-  
+
   ds_eval  <- ds.ltt_new(df.ltt)
   
   data_loader_ltt <- ds_eval  %>% torch::dataloader(batch_size=1, shuffle=FALSE)
   
   cnn_ltt$eval()
-  num_outputs <- 3
-  nn.pred <- vector(mode = "list", length = num_outputs)
-  names(nn.pred) <- c("lambda0", "mu", "K")
-  
-  # Preallocate memory for predictions
-  pred_values <- matrix(nrow = num_outputs, ncol = length(data_loader_ltt))
-  
   
   coro::loop(for (b in data_loader_ltt) {
     out <- cnn_ltt(b$x$to(device = device))
     pred <- as.numeric(out$to(device = "cpu")) # move the tensor to CPU 
-    pred_values[, i] <- pred
   })
-  
-  
-  # Store predictions in nn.pred
-  for (i in seq_len(num_outputs)){
-    nn.pred[[i]] <- pred_values[i, ]
-  }
+
   
   par_estim = pred/crown_time
   
