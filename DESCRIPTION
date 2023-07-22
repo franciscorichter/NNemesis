@@ -12,6 +12,7 @@ Imports:
     torch,
     ggplot2,
     stats,
-    utils
+    utils,
+    svMisc
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
