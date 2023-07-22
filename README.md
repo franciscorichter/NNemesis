@@ -24,7 +24,11 @@ Here is a basic example of how to use NNemesis:
 
 ```r
 library(NNemesis)
-# insert example code here
+
+tree = phylo 
+DDD_par_est(tree,cnn_ltt = cnn_ltt)
+
+
 ```
 
 Please refer to the vignettes for detailed examples and usage instructions.
