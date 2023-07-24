@@ -1,7 +1,5 @@
-#' @import magrittr
-
 # Improved DDD_par_est function
-DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
+DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu",p_dropuout = 0){
   # Check if tree is a valid phylogenetic tree
   if(!inherits(tree, "phylo")){
     stop("Input tree is not a valid phylogenetic tree.")
@@ -37,7 +35,6 @@ DDD_est <- function(tree, cnn_ltt, max_nodes_rounded = 550, device = "cpu"){
   })
 
   
-  par_estim = pred/crown_time
-  
-  return(par_estim)
+  pred[1:2] = pred[1:2]/crown_time
+  return(pred)
 }

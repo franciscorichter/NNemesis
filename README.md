@@ -24,7 +24,10 @@ Here is a basic example of how to use NNemesis:
 
 ```r
 library(NNemesis)
+
 tree = FamilyMammalTrees$Ziphiidae$tree
+p_dropout = 0
+
 DDD_est(tree = tree,cnn_ltt = cnn_ltt)
 ```
 
