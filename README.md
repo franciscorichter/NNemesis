@@ -15,6 +15,8 @@ To install the latest version of NNemesis from GitHub:
 
 ```r
 # install.packages("devtools")
+# install.packages("torch")
+# torch:::install_torch()
 devtools::install_github("franciscorichter/NNemesis")
 ```
 
@@ -23,6 +25,7 @@ devtools::install_github("franciscorichter/NNemesis")
 Here is a basic example of how to use NNemesis:
 
 ```r
+
 library(NNemesis)
 
 tree = FamilyMammalTrees$Ziphiidae$tree
